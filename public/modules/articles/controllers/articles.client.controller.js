@@ -15,6 +15,16 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
 		var myLatlng = new google.maps.LatLng(-31.408740136908474,-64.18624877929688);
 
+		function addMarker (latlng) {
+			var marker = new google.maps.Marker({
+			    map: $scope.map,
+			    animation: google.maps.Animation.DROP,
+			    // icon: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+			    position: new google.maps.LatLng(latlng[1] || 0, latlng[0] ||0)
+			});
+			return marker;
+		}
+
 		$scope.marker = new google.maps.Marker({
 		    map: $scope.map,
 		    draggable: true,
@@ -23,7 +33,6 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 		});
 		google.maps.event.addListener($scope.marker, 'dragend', function() {
 		    var ll = $scope.marker.getPosition();
-		    console.log('your marker is at:', ll.lat(), ll.lng());
 		});
 
 		$scope.create = function() {
@@ -60,7 +69,6 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 				});
 			}
 		};
-
 		$scope.update = function() {
 			var article = $scope.article;
 
@@ -72,7 +80,15 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 		};
 
 		$scope.find = function() {
-			$scope.articles = Articles.query();
+			$scope.markers = [];
+			$scope.articles = Articles.query(function () {	
+				$scope.articles.forEach(function (article) {
+					console.log(article);
+					if (article.latlng) {
+						addMarker(article.latlng)
+					};
+				});
+			});
 		};
 
 		$scope.findOne = function() {

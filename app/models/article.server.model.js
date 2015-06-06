@@ -28,7 +28,11 @@ var ArticleSchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
-	}
+	},
+	latlng: {
+	    type: [Number],  // [<longitude>, <latitude>]
+	    index: '2d'      // create the geospatial index
+    }
 });
 
 mongoose.model('Article', ArticleSchema);
