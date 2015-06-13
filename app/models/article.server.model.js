@@ -14,7 +14,7 @@ var ArticleSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	title: {
+	license: {
 		type: String,
 		default: '',
 		trim: true,

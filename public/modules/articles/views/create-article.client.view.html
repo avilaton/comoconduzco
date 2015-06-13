@@ -1,14 +1,14 @@
 <section data-ng-controller="ArticlesController">
 	<div class="page-header">
-		<h1>Nuevo Proyecto</h1>
+		<h1>Nuevo Reporte</h1>
 	</div>
 	<div class="col-md-6">
 		<form name="articleForm" class="form-horizontal" data-ng-submit="create()" novalidate>
 			<fieldset>
-				<div class="form-group" ng-class="{ 'has-error': articleForm.title.$dirty && articleForm.title.$invalid }">
-					<label class="control-label" for="title">Titulo</label>
+				<div class="form-group" ng-class="{ 'has-error': articleForm.license.$dirty && articleForm.license.$invalid }">
+					<label class="control-label" for="license">Patente</label>
 					<div class="controls">
-						<input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Titulo" required>
+						<input name="license" type="text" data-ng-model="license" id="license" class="form-control" placeholder="Titulo" required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -31,27 +31,6 @@
 					  <label class="checkbox-inline">
 					    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
 					    Inversión
-					  </label>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label" for="content">Escala</label>
-					<div class="radio">
-					  <label class="checkbox-inline">
-					    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-					    Provincial
-					  </label>
-					  <label class="checkbox-inline">
-					    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-					    Departamental
-					  </label>
-					  <label class="checkbox-inline">
-					    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-					    Regional
-					  </label>
-					  <label class="checkbox-inline">
-					    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-					    Local
 					  </label>
 					</div>
 				</div>
