@@ -29,7 +29,7 @@ exports.sign = function(req, res) {
       else{
           var return_data = {
               signed_request: data,
-              url: 'https://'+config.aws.documentsBucket+'.s3.amazonaws.com/'+req.query.file_name
+              imageUrl: 'https://'+config.aws.documentsBucket+'.s3.amazonaws.com/'+req.query.file_name
           };
           res.write(JSON.stringify(return_data));
           res.end();

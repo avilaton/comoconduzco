@@ -18,6 +18,11 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<img ng-src="{{imageUrl}}" />
+					<label for="avatar">Avatar</label>
+					<input type="file" id="avatar" name="avatar" class="form-control" data-ng-model="user.avatarUrl" onchange="angular.element(this).scope().upload(this.files)">
+				</div>
+				<div class="form-group">
 					<label class="control-label" for="content">Tipo</label>
 					<div class="radio">
 					  <label class="checkbox-inline">
