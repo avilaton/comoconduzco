@@ -11,8 +11,8 @@ module.exports = {
 		callbackURL: '/auth/facebook/callback'
 	},
 	twitter: {
-		clientID: process.env.TWITTER_KEY || 'IE1QNx6gyO9RmYov9Rej1tW1n',
-		clientSecret: process.env.TWITTER_SECRET || 'XOl8daCfbpEm6ewtkvaMXuFbZ1hcqm3dYKa0a0ltAqyXWn1L28',
+		clientID: process.env.TWITTER_KEY || 'TWITTER_KEY',
+		clientSecret: process.env.TWITTER_SECRET || 'TWITTER_SECRET',
 		callbackURL: '/auth/twitter/callback'
 	},
 	google: {
@@ -39,5 +39,10 @@ module.exports = {
 				pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
 			}
 		}
+	},
+	aws: {
+		clientID: process.env.AWS_ACCESS_KEY_ID || 'AWS_ACCESS_KEY_ID',
+		clientSecret: process.env.AWS_SECRET_ACCESS_KEY || 'AWS_SECRET_ACCESS_KEY',
+		documentsBucket: process.env.S3_BUCKET || 'S3_BUCKET'
 	}
 };

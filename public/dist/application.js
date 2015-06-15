@@ -91,44 +91,45 @@ angular.module('articles').config(['$stateProvider',
 ]);
 'use strict';
 
-angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
-	function($scope, $stateParams, $location, Authentication, Articles) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles', 'Documents',
+	function($scope, $stateParams, $location, Authentication, Articles, Documents) {
 		$scope.authentication = Authentication;
 
 
-	    var mapOptions = {
-	        zoom: 4,
-	        center: new google.maps.LatLng(-31.408740136908474,-64.18624877929688),
-	        mapTypeId: google.maps.MapTypeId.TERRAIN
-	    }
+		var mapOptions = {
+			zoom: 4,
+			center: new google.maps.LatLng(-31.408740136908474,-64.18624877929688),
+			mapTypeId: google.maps.MapTypeId.TERRAIN
+		}
 
-	    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 		var myLatlng = new google.maps.LatLng(-31.408740136908474,-64.18624877929688);
 
 		function addMarker (latlng) {
 			var marker = new google.maps.Marker({
-			    map: $scope.map,
-			    animation: google.maps.Animation.DROP,
-			    // icon: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
-			    position: new google.maps.LatLng(latlng[1] || 0, latlng[0] ||0)
+				map: $scope.map,
+				animation: google.maps.Animation.DROP,
+				// icon: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+				position: new google.maps.LatLng(latlng[1] || 0, latlng[0] ||0)
 			});
 			return marker;
 		}
 
 		$scope.marker = new google.maps.Marker({
-		    map: $scope.map,
-		    draggable: true,
-		    animation: google.maps.Animation.DROP,
-		    position: myLatlng
+			map: $scope.map,
+			draggable: true,
+			animation: google.maps.Animation.DROP,
+			position: myLatlng
 		});
 		google.maps.event.addListener($scope.marker, 'dragend', function() {
-		    var ll = $scope.marker.getPosition();
+			var ll = $scope.marker.getPosition();
 		});
 
 		$scope.create = function() {
 			var article = new Articles({
 				license: this.license,
+				imageUrl: this.imageUrl,
 				content: this.content,
 				latlng: [
 					$scope.marker.getPosition().lng(), 
@@ -187,6 +188,19 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 				articleId: $stateParams.articleId
 			});
 		};
+
+		$scope.upload = function (files) {
+			var file = files[0];
+
+			Documents.sign(file.name, file.type).then(function (res) {
+				var data = res.data;
+				Documents.upload(file, data.signed_request, data.imageUrl).then(function () {
+					$scope.imageUrl = data.imageUrl;
+					console.log('done');
+				});
+			});
+		};
+
 	}
 ]);
 'use strict';
@@ -290,6 +304,43 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		$scope.find();
 	}
 ]);
+'use strict';
+
+// Documents service used to upload directly to s3
+angular.module('core').service('Documents', ['$http', '$q',
+  function ($http, $q) {
+
+    return {
+      sign: function (file_name, file_type) {
+        return $http.get('/s3', {
+            params: {file_name: file_name, file_type: file_type}
+          }).success(function (response) {
+            console.log('success', response);
+          }).error(function (res) {
+            console.log('fuck, error', res);
+          });
+      },
+      upload: function (file, signed_request) {
+
+        return $http.put(signed_request, file, {
+          withCredentials: true,
+          headers: {
+            'x-amz-acl': 'public-read',
+            'Content-Type': undefined
+          },
+        }).success(function (response) {
+          return response;
+        });
+      },
+      uploadToS3: function (file) {
+        var self = this;
+        return this.sign(file.name, file.type).then(function (res) {
+          var data = res.data;
+          return self.upload(file, data.signed_request);
+        });
+      }
+    };
+  }]);
 'use strict';
 
 //Menu service used for managing  menus
