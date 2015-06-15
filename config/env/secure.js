@@ -55,5 +55,10 @@ module.exports = {
 				pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
 			}
 		}
+	},
+	aws: {
+		clientID: process.env.AWS_ACCESS_KEY_ID || 'AWS_ACCESS_KEY_ID',
+		clientSecret: process.env.AWS_SECRET_ACCESS_KEY || 'AWS_SECRET_ACCESS_KEY',
+		documentsBucket: process.env.S3_BUCKET || 'S3_BUCKET'
 	}
 };
