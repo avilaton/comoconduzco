@@ -156,4 +156,4 @@ When stable, the `develop` branch will be merged to `master` and tagged.
 - Gaston 
 - Pablo
 - Chino
-- Max
+- Francisco (a.k.a. Max)
