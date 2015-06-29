@@ -149,3 +149,11 @@ Develop in feature branches and when ready, create PR to the `develop` branch.
 Use the jira ticket ID if possible as the branch name.
 
 When stable, the `develop` branch will be merged to `master` and tagged.
+
+
+# Contribuyentes
+
+- Gaston 
+- Pablo
+- Chino
+- Max
